@@ -1,7 +1,7 @@
 from setuptools import setup
 from setuptools import find_packages
 setup(name='x264codec',
-      version='0.1.0',
+      version='0.1.1',
       description='h264 and aac codec with ffmpeg',
       long_description='',
       author='i-crux',

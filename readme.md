@@ -10,6 +10,12 @@ python setup.py install
 ```
 
 # 测试
+注意:
+1. 测试需要准备测试视频
+2. 请将视频放入 tests/video_file 目录下
+3. 请将视频重命名为 h.mp4 和 v.mp4
+4. 或者自行修改 test_xxx.py中的输入文件路径
+
 ```shell script
 pip install pytest
 # 进入代码目录执行
