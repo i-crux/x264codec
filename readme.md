@@ -52,6 +52,7 @@ X264Codec 类初始化时,会将视频的格式统一为:
 - 视频分辨率: 858x480
 - 视频帧率: 24帧
 - 视频码率: 650k
+
 **以上个数值可以在 x264codec._models.variables.video_args 修改**
 ```python
 VIDEO_WIDTH = 858           # h264横向视频的目标高
