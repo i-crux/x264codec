@@ -12,4 +12,4 @@ __pycache__
 x264codec.egg-info
 .DS_Store
 *.swp
-tests/video_file
+tests/video_file/*.mp4
