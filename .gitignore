@@ -1,0 +1,15 @@
+*.pyc
+venv/
+.idea
+.idea/*
+*.log
+*.log.mbtree
+.pytest_cache
+.pytest_cache/*
+build/*
+dist/*
+__pycache__
+x264codec.egg-info
+.DS_Store
+*.swp
+tests/video_file
