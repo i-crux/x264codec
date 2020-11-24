@@ -36,7 +36,7 @@ CMD_ROTATE_VIDEO = f"'{com_args.FFMPEG}' -hide_banner -i " r"'{inpath:s}' -y " \
 
 """
 将视频编码为h264(libx264),音频编码为aac(libfdk_aac),要想准确控制bitrate(-b:v), 需要使用 -pass
--coder 1 CABAC 压缩算法; -bf 5 b帧5; -flags +loop -deblock -1:-1 使用去块滤波器
+-coder 1 CABAC 压缩算法; -bf b帧数量; -flags +loop -deblock -1:-1 使用去块滤波器
 -partitions i4x4+i8x8+p8x8+b8x8 宏块的划分; -me_method umh 运动评估算法， 不均衡的六边形算法
 """
 CMD_VIDEO2H264 = f"'{com_args.FFMPEG}' -hide_banner -f mp4 -i " r"'{inpath:s}' {inimgs} -threads 0 -y " \
@@ -46,7 +46,8 @@ CMD_VIDEO2H264 = f"'{com_args.FFMPEG}' -hide_banner -f mp4 -i " r"'{inpath:s}' {
                  f"-pix_fmt {video_args.VIDEO_PIXFMT} -r {video_args.VIDEO_FPS} " \
                  f"-profile:v {video_args.H264_PROFILE} -level {video_args.H264_LEVEL} " \
                  f"-g {video_args.H264_GOP} -keyint_min {video_args.H264_MIN_GOP} " \
-                 r"-bf 5 -flags +loop -deblock -1:-1 -partitions i4x4+i8x8+p8x8+b8x8 -me_method umh " \
+                 f"-bf {video_args.MAX_BFRAME} -flags +loop -deblock -1:-1 " \
+                 r"-partitions i4x4+i8x8+p8x8+b8x8 -me_method umh " \
                  r"-b:v {vbitrate}k -an -f mp4 /dev/null && " \
                  f"'{com_args.FFMPEG}' -hide_banner -f mp4 -i " r"'{inpath:s}' {inimgs} -threads 0 -y " \
                  r"-pass 2 -passlogfile {passlog_prefix:s} {filter_opts} " \
@@ -55,7 +56,8 @@ CMD_VIDEO2H264 = f"'{com_args.FFMPEG}' -hide_banner -f mp4 -i " r"'{inpath:s}' {
                  f"-pix_fmt {video_args.VIDEO_PIXFMT} -r {video_args.VIDEO_FPS} " \
                  f"-profile:v {video_args.H264_PROFILE} -level {video_args.H264_LEVEL} " \
                  f"-g {video_args.H264_GOP} -keyint_min {video_args.H264_MIN_GOP} " \
-                 r"-bf 5 -flags +loop -deblock -1:-1 -partitions i4x4+i8x8+p8x8+b8x8 -me_method umh " \
+                 f"-bf {video_args.MAX_BFRAME} -flags +loop -deblock -1:-1 " \
+                 r"-partitions i4x4+i8x8+p8x8+b8x8 -me_method umh " \
                  r"-b:v {vbitrate}k " \
                  f"-acodec {audio_args.AAC_CODEC} -profile:a {audio_args.AAC_PROFILE} " \
                  f"-ar {audio_args.AUDIO_SIMPLE_RATE} -ac 2 " \
@@ -77,11 +79,11 @@ CMD_CUTVIDEO = f"'{com_args.FFMPEG}' -hide_banner " r"-ss {start:f} -t {last:f} 
 生成GIF
 """
 CMD_CREATEGIF = f"'{com_args.FFMPEG}' -hide_banner " r"-ss {start:f} -t {last:f} -i '{inpath:s}' -threads 0 -an " \
-                f"-vf 'fps={video_args.GIT_FPS}," \
+                f"-vf 'fps={video_args.GIF_FPS}," \
                 r"scale=-2:{height:d}:flags=lanczos,palettegen' -y '{passlog_prefix:s}' && " \
                 f"'{com_args.FFMPEG}' -hide_banner " r"-ss {start:f} -t '{last:f}' -i '{inpath:s}' " \
                 r"-i '{passlog_prefix:s}' -threads 0 -an -f gif " \
-                f"-lavfi 'fps={video_args.GIT_FPS}," r"scale=-2:{height:d}:flags=lanczos[x];[x][1:v]paletteuse' " \
+                f"-lavfi 'fps={video_args.GIF_FPS}," r"scale=-2:{height:d}:flags=lanczos[x];[x][1:v]paletteuse' " \
                 r"-y '{outpath:s}'"
 
 """

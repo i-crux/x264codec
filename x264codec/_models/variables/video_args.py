@@ -1,6 +1,13 @@
 import enum
 from collections import namedtuple
 
+
+"""
+-bf 选项
+b帧数量, 使用libx264编码时可以是5, h264_nvenc 编码时最大是4
+"""
+MAX_BFRAME = 4
+
 """
 -preset 选项
 调整编码速度,越慢编码质量越高
@@ -24,7 +31,7 @@ H264_CODEC = 'libx264'  # -vcodec 选项. 可选值 libx264 h264_qsv h264_nvenc
 
 VIDEO_FPS = 24      # -r 选项,视频帧率
 
-GIT_FPS = 5         # -r 选项,GIF图片帧率
+GIF_FPS = 5         # -r 选项,GIF图片帧率
 
 HLS_TS_TIME = 8     # 8秒的 hls 切片时长
 
