@@ -262,7 +262,11 @@ class X264Codec(media_attrs.VideoStreamInfo):
                 raise IndexError('Out range')
             return self.cut_video(item, 1)
         elif isinstance(item, slice):
+            oristep = item.step
+            if oristep and oristep < 0:
+                item = slice(item.start, item.stop, abs(oristep))
             start, stop, step = item.indices(len(self))     # 这里 如果step == 0 的话,slice函数会抛出异常
+            step = oristep if oristep else step
             if start >= stop:
                 return list()
             if abs(step) > stop - start:   # 调整 step 越界的情况
@@ -277,6 +281,4 @@ class X264Codec(media_attrs.VideoStreamInfo):
         else:
             msg = '{cls.__name__} indices must be integral'
             raise TypeError(msg.format(cls=cls))
-
-
 
